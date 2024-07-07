@@ -1,5 +1,15 @@
 import request from "supertest";
 import app from "../index.js";
+import client from "../db-client";
+
+beforeAll(async () => {
+  await client.user.deleteMany();
+  await client.organisation.deleteMany();
+});
+
+afterAll(async () => {
+  await client.$disconnect();
+});
 
 describe("User Registration and Login", () => {
   it("should register user successfully with default organisation", async () => {
@@ -11,12 +21,15 @@ describe("User Registration and Login", () => {
       phone: "+243992393174",
     });
 
+    const user = await client.user.findUnique({
+      where: { email: res.body.data.user.email },
+      include: { organisations: true },
+    });
+
     expect(res.statusCode).toBe(201);
     expect(res.body.data.user.firstName).toBe("Blessing");
     expect(res.body.data.user.email).toBe("blessing@example.com");
-    expect(res.body.data.user.organisations[0].name).toBe(
-      "Blessing's Organisation"
-    );
+    expect(user.organisations[0].name).toBe("Blessing's Organisation");
     expect(res.body.data.accessToken).toBeDefined();
   });
 

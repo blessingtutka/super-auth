@@ -1,5 +1,14 @@
 import client from "../db-client";
 
+beforeAll(async () => {
+  await client.user.deleteMany();
+  await client.organisation.deleteMany();
+});
+
+afterAll(async () => {
+  await client.$disconnect();
+});
+
 describe("Organisation Access", () => {
   beforeAll(async () => {
     await client.organisation.create({
@@ -9,9 +18,9 @@ describe("Organisation Access", () => {
         users: {
           create: {
             userId: "user1",
-            firstName: "Blessing",
-            lastName: "Tutka",
-            email: "blessing@example.com",
+            firstName: "Senku",
+            lastName: "Ishigami",
+            email: "senku@example.com",
             password: "hashedpassword",
           },
         },
