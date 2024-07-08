@@ -5,6 +5,7 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
+    "migrate": "prisma migrate deploy",
     "dev": "nodemon index.js",
     "test": "jest"
   },
