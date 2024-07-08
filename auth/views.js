@@ -22,9 +22,10 @@ async function getSingleUser(userId) {
         userId: userId,
       },
     });
-    return user;
+    const { password, ...userWithoutPassword } = user;
+    return userWithoutPassword;
   } catch (error) {
-    throw new Error(`Error fetching user: ${error}`);
+    throw new Error(`Error fetching user`);
   } finally {
     await client.$disconnect();
   }
@@ -38,7 +39,8 @@ async function VerifyUser(email, password) {
       },
     });
     if (user && (await bcrypt.compare(password, user.password))) {
-      return user;
+      const { password, ...userWithoutPassword } = user;
+      return userWithoutPassword;
     } else {
       return null;
     }
@@ -68,8 +70,8 @@ async function createUser(firstName, lastName, email, password, phone) {
       },
       //   include: { organisations: true },
     });
-
-    return userOrganisation;
+    const { password, ...userWithoutPassword } = userOrganisation;
+    return userWithoutPassword;
   } catch (error) {
     throw new Error(`Error creating user: ${error}`);
   } finally {

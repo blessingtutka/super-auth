@@ -3,7 +3,6 @@ import dotenv from "dotenv";
 import cors from "cors";
 import apiRoutes from "./api/routes.js";
 import authRoutes from "./auth/routes.js";
-import { register } from "module";
 dotenv.config();
 const { PORT } = process.env;
 
@@ -27,10 +26,11 @@ app.use((req, res) => {
   };
 
   res.status(404).json({
+    status: "Not Found",
     message: "Route not found",
     login: getUrl("login"),
     register: getUrl("register"),
-    status: 404,
+    statusCode: 404,
   });
   0;
 });

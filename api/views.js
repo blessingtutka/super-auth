@@ -16,7 +16,7 @@ async function getUserOrganisations(userdId) {
     });
     return allOrgs;
   } catch {
-    throw new Error(`Error fetching organisations: ${error}`);
+    throw new Error(`Error fetching organisations`);
   } finally {
     await client.$disconnect();
   }
@@ -42,7 +42,7 @@ async function addUserOrganisation(orgId, userId, authUserId) {
     });
     return addUser;
   } catch {
-    throw new Error(`Error fetching organisations: ${error}`);
+    throw new Error(`Error Adding user to organisation`);
   } finally {
     await client.$disconnect();
   }
@@ -62,7 +62,7 @@ async function createOrganisation(userId, name, desc) {
 
     return userOrganisation;
   } catch (error) {
-    throw new Error(`Error creating organisation: ${error}`);
+    throw new Error(`Error creating organisation`);
   } finally {
     await client.$disconnect();
   }
@@ -77,7 +77,7 @@ async function getSingleOrganisation(orgId) {
     });
     return org;
   } catch (error) {
-    throw new Error(`Error fetching organisation: ${error}`);
+    throw new Error(`Error fetching organisation`);
   } finally {
     await client.$disconnect();
   }
