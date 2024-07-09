@@ -31,14 +31,14 @@ async function getSingleUser(userId) {
   }
 }
 
-async function VerifyUser(email, password) {
+async function VerifyUser(email, passwords) {
   try {
     const user = await userTable.findUnique({
       where: {
         email: email,
       },
     });
-    if (user && (await bcrypt.compare(password, user.password))) {
+    if (user && (await bcrypt.compare(passwords, user.password))) {
       const { password, ...userWithoutPassword } = user;
       return userWithoutPassword;
     } else {
@@ -51,10 +51,10 @@ async function VerifyUser(email, password) {
   }
 }
 
-async function createUser(firstName, lastName, email, password, phone) {
+async function createUser(firstName, lastName, email, passw, phone) {
   try {
     const orgName = `${firstName}'s Organisation`;
-    const cryptPassword = await bcrypt.hash(password, 10);
+    const cryptPassword = await bcrypt.hash(passw, 10);
     const userOrganisation = await userTable.create({
       data: {
         firstName: firstName,
@@ -68,7 +68,7 @@ async function createUser(firstName, lastName, email, password, phone) {
           },
         },
       },
-      //   include: { organisations: true },
+      // include: { organisations: true },
     });
     const { password, ...userWithoutPassword } = userOrganisation;
     return userWithoutPassword;
